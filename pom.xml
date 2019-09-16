@@ -25,7 +25,18 @@
     <error_prone_annotations.version>2.3.3</error_prone_annotations.version>
 
     <java-hamcrest.version>2.0.0.0</java-hamcrest.version>
+
+    <springfox-swagger.version>3.0.0-SNAPSHOT</springfox-swagger.version>
+    <springfox-swagger-ui-rfc6570.version>1.0.0</springfox-swagger-ui-rfc6570.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>jcenter-snapshots</id>
+      <name>jcenter</name>
+      <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>
@@ -87,6 +98,34 @@
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit-jupiter.version}</version>
         <scope>test</scope>
+      </dependency>
+      <!--endregion-->
+
+      <!--region Swagger -->
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${springfox-swagger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${springfox-swagger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox.ui</groupId>
+        <artifactId>springfox-swagger-ui-rfc6570</artifactId>
+        <version>${springfox-swagger-ui-rfc6570.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-data-rest</artifactId>
+        <version>${springfox-swagger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-bean-validators</artifactId>
+        <version>${springfox-swagger.version}</version>
       </dependency>
       <!--endregion-->
 
@@ -189,6 +228,29 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <!--endregion-->
+
+    <!--region Swagger -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+    </dependency>
+    <!-- <dependency> -->
+    <!--  <groupId>io.springfox</groupId> -->
+    <!--  <artifactId>springfox-swagger-ui</artifactId> -->
+    <!-- </dependency> -->
+    <dependency>
+      <groupId>io.springfox.ui</groupId>
+      <artifactId>springfox-swagger-ui-rfc6570</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-data-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-bean-validators</artifactId>
     </dependency>
     <!--endregion-->
 

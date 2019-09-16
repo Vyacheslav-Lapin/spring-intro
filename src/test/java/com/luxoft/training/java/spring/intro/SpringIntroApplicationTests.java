@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,6 +44,7 @@ class SpringIntroApplicationTests {
 
   @Test
   @SneakyThrows
+  @DisplayName("Cats presented in REST API")
   void catsPresented() {
     mvc.perform(get("/cats"))
 		.andExpect(status().isOk())
