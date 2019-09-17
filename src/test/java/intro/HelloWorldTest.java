@@ -31,7 +31,7 @@ class HelloWorldTest {
   }
 
   @SuppressWarnings("WeakerAccess")
-  protected UsualPerson getExpectedPerson() {
+  protected static UsualPerson getExpectedPerson() {
     return UsualPerson.builder()
                .id(1)
                .age(35)
