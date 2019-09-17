@@ -38,10 +38,4 @@ public class UsualPerson implements Person {
 
   @Singular
   List<String> contacts;
-
-  @Override
-  public void sayHello(@NotNull Person person) {
-    log.info("Hello, {}, I'm {}", person.getName(), getName());
-  }
-
 }
