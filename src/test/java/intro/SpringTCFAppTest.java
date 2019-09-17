@@ -1,29 +1,30 @@
 package intro;
 
 import static intro.HelloWorldTest.getExpectedPerson;
-import static lombok.AccessLevel.PRIVATE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.luxoft.training.java.spring.intro.configs.ApplicationContext;
 import lab.model.Person;
-import lab.model.UsualPerson;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
-@SpringBootTest
+@SpringBootTest(classes = ApplicationContext.class)
 @FieldDefaults(makeFinal = true)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@ContextConfiguration("classpath:application-context.xml")
+//@ContextConfiguration("classpath:application-context.xml")
 class SpringTCFAppTest {
 
-	UsualPerson person;
+	private final Person person;
 
-	Person expectedPerson = getExpectedPerson();
+	private final Person expectedPerson = getExpectedPerson();
 
-	@Test
+	@Autowired
+  public SpringTCFAppTest(Person person) {
+    this.person = person;
+  }
+
+  @Test
   void testInitPerson() {
 		assertEquals(expectedPerson, person);
 	}

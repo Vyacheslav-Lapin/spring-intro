@@ -4,13 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import lab.model.Country;
 import lab.model.UsualPerson;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //@SpringBootTest(classes = com.luxoft.training.java.spring.intro.SpringIntroApplication.class)
 //@RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -30,8 +26,7 @@ class HelloWorldTest {
         context.getBean("person"));
   }
 
-  @SuppressWarnings("WeakerAccess")
-  protected static UsualPerson getExpectedPerson() {
+  static UsualPerson getExpectedPerson() {
     return UsualPerson.builder()
                .id(1)
                .age(35)
