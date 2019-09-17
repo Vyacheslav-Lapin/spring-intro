@@ -2,32 +2,32 @@ package intro;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import lab.model.Country;
-import lab.model.Person;
 import lab.model.UsualPerson;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@SpringBootTest(classes = com.luxoft.training.java.spring.intro.SpringIntroApplication.class)
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+//@SpringBootTest(classes = com.luxoft.training.java.spring.intro.SpringIntroApplication.class)
+//@RequiredArgsConstructor(onConstructor_ = @Autowired)
 class HelloWorldTest {
 
-  protected static final String APPLICATION_CONTEXT_XML_FILE_NAME =
-      "application-context.xml";
+  protected static final Class<?> APPLICATION_CONTEXT_JAVA_CLASS_FILE_NAME =
+      com.luxoft.training.java.spring.intro.configs.ApplicationContext.class;
 
   final BeanFactory context =
-      new ClassPathXmlApplicationContext(
-      APPLICATION_CONTEXT_XML_FILE_NAME);
+      new AnnotationConfigApplicationContext(
+          APPLICATION_CONTEXT_JAVA_CLASS_FILE_NAME);
 
   @Test
   void testInitPerson() {
-    assertEquals(getExpectedPerson(), context.getBean("person"));
+    assertEquals(
+        getExpectedPerson(),
+        context.getBean("person"));
   }
 
   @SuppressWarnings("WeakerAccess")
