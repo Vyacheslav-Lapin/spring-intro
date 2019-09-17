@@ -41,26 +41,6 @@ run:
 #	./target/spring-intro-0.0.1-SNAPSHOT.jar
 #	java -jar --enable-preview ./target/spring-intro-0.0.1-SNAPSHOT.jar
 
-archetype: clear uninit
-	./mvnw archetype:create-from-project -Darchetype.properties=archetype.properties
-#	cd target/generated-sources/archetype/.idea && rm workspace.xml usage.statistics.xml tasks.xml
-	make init
-#	idea ./target/generated-sources/archetype/pom.xml
-	cd target/generated-sources/archetype && ./../../../mvnw clean install
-
-clone: archetype
-	cd .. && mvn archetype:generate \
-		-DarchetypeGroupId=ru.vlapin.projects \
-		-DarchetypeArtifactId=monolith-archetype \
-		-DartifactId=monolith-example \
-		-DarchetypeVersion=0.0.1-SNAPSHOT \
-		-DgroupId=ru.vlapin.projects \
-		-Dpackage=ru.vlapin.projects.monolith \
-		-Dversion=0.0.1-SNAPSHOT \
-		-DinteractiveMode=false
-
-	idea ./../monolith-example/pom.xml
-
 clear:
 	./mvnw clean
 
@@ -71,23 +51,18 @@ update:
 	./mvnw versions:update-parent versions:update-properties versions:display-plugin-updates
 
 delombok: clear
-	mkdir -p ./target/generated-sources/delombok ./target/generated-test-sources/delombok
-	ln -s ./java ./src/main/lombok
-	ln -s ./java ./src/test/lombok
-#	./mvnw lombok:delombok lombok:testDelombok
-	java -cp `mvn dependency:build-classpath | grep -A1 'Dependencies classpath' | tail -1` -jar ~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar delombok ./src/main/lombok -d ./target/generated-sources/delomboked
-	java -cp `mvn dependency:build-classpath | grep -A1 'Dependencies classpath' | tail -1` -jar ~/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar delombok ./src/test/lombok -d ./target/generated-sources/test-delomboked
-	rm ./src/main/lombok ./src/test/lombok
+	./mvnw lombok:delombok
+#	mkdir -p ./target/generated-sources/delombok
+#	java -cp `./mvnw dependency:build-classpath | grep -A1 'Dependencies classpath' | tail -1` \
+#		lombok.launch.Main delombok src/main/java \
+#		-d target/generated-sources/delombok
 
-git-fork-init: init
-	git remote add upstream git://github.com/Vyacheslav-Lapin/spring-intro.git
-	git fetch upstream
-
-#branch name
-B=feature
-git-branch:
-	git checkout -b $(B)
-	git push -u origin $(B)
+test-delombok: delombok
+	./mvnw lombok:testDelombok
+#	mkdir -p ./target/generated-test-sources/delombok
+#	java -cp `./mvnw dependency:build-classpath | grep -A1 'Dependencies classpath' | tail -1`:$(A)/target/generated-sources/delombok \
+#		lombok.launch.Main delombok src/test/java \
+#		-d target/generated-test-sources/delombok
 
 .DEFAULT_GOAL := build-run
 build-run: update build run

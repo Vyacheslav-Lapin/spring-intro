@@ -1,13 +1,12 @@
-package intro;
+package com.luxoft.training.java.spring.intro.aop;
 
-import static intro.common.TestUtils.fromSystemOutPrintln;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static com.luxoft.training.java.spring.intro.commons.TestUtils.fromSystemOutPrintln;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
-import com.luxoft.training.java.spring.intro.configs.ApplicationContext;
-import lab.model.ApuBar;
-import lab.model.Bar;
-import lab.model.Customer;
+import com.luxoft.training.java.spring.intro.lab.model.ApuBar;
+import com.luxoft.training.java.spring.intro.lab.model.Bar;
+import com.luxoft.training.java.spring.intro.lab.model.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = ApplicationContext.class)
+@SpringBootTest
 @FieldDefaults(makeFinal = true)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 //@ContextConfiguration("classpath:application-context.xml")
@@ -38,13 +37,13 @@ class AopAspectJTest {
 
   @Test
   void testBeforeAdvice() {
-    assertTrue("Before advice is not good enought", extractedText.contains("Hello"));
-    assertTrue("Before advice is not good enought...", extractedText.contains("How are you doing?"));
+    assertTrue("Before advice is not good enough", extractedText.contains("Hello"));
+    assertTrue("Before advice is not good enough...", extractedText.contains("How are you doing?"));
   }
 
   @Test
   void testAfterAdvice() {
-    assertTrue("After advice is not good enought...", extractedText.contains("Good Bye!"));
+    assertTrue("After advice is not good enough...", extractedText.contains("Good Bye!"));
   }
 
   @Test
@@ -55,12 +54,12 @@ class AopAspectJTest {
 
   @Test
   void testAroundAdvice() {
-    assertTrue("Around advice is not good enought...", extractedText.contains("Hi!"));
-    assertTrue("Around advice is not good enought...", extractedText.contains("See you!"));
+    assertTrue("Around advice is not good enough...", extractedText.contains("Hi!"));
+    assertTrue("Around advice is not good enough...", extractedText.contains("See you!"));
   }
 
   @Test
   void testAllAdvices() {
-    assertFalse(apuBar instanceof ApuBar); // barObject instanceof ApuBar
+    assertThat(apuBar instanceof ApuBar).isTrue();
   }
 }

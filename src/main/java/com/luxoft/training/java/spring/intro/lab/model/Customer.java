@@ -1,4 +1,4 @@
-package lab.model;
+package com.luxoft.training.java.spring.intro.lab.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

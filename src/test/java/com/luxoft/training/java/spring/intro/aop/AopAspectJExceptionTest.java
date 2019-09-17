@@ -1,23 +1,23 @@
-package intro;
+package com.luxoft.training.java.spring.intro.aop;
 
+import static com.luxoft.training.java.spring.intro.commons.TestUtils.fromSystemOutPrintln;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
-import com.luxoft.training.java.spring.intro.configs.ApplicationContext;
-import intro.common.TestUtils;
-import lab.model.Bar;
-import lab.model.Customer;
-import lab.model.CustomerBrokenException;
+import com.luxoft.training.java.spring.intro.lab.model.Bar;
+import com.luxoft.training.java.spring.intro.lab.model.Customer;
+import com.luxoft.training.java.spring.intro.lab.model.CustomerBrokenException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 @FieldDefaults(makeFinal = true)
-@SpringBootTest(classes = ApplicationContext.class)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 //@ContextConfiguration("classpath:application-context.xml")
 class AopAspectJExceptionTest {
@@ -31,18 +31,22 @@ class AopAspectJExceptionTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    extractedText = TestUtils.fromSystemOutPrintln(() -> {
-//       customer.setBroke(true);
-    });
+    customer.setBroke(true);
   }
 
   @Test
   void testAfterThrowingAdvice() {
 
-    assertThrows(CustomerBrokenException.class,
-        () -> bar.sellSquishee(customer));
+    extractedText = fromSystemOutPrintln(
+        () -> assertThrows(CustomerBrokenException.class,
+            () -> bar.sellSquishee(customer)));
 
     assertTrue("Customer is not broken ",
         extractedText.contains("Hmmm..."));
+  }
+
+  @AfterEach
+  void tearDown() {
+    customer.setBroke(false);
   }
 }

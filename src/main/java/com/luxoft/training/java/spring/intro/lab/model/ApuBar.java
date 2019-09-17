@@ -1,4 +1,4 @@
-package lab.model;
+package com.luxoft.training.java.spring.intro.lab.model;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;

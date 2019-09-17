@@ -1,21 +1,23 @@
-package intro;
+package com.luxoft.training.java.spring.intro.ioc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import lab.model.Country;
-import lab.model.UsualPerson;
+import com.luxoft.training.java.spring.intro.lab.model.Country;
+import com.luxoft.training.java.spring.intro.lab.model.UsualPerson;
+import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-//@SpringBootTest(classes = com.luxoft.training.java.spring.intro.SpringIntroApplication.class)
+//@SpringBootTest
 //@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@FieldDefaults(makeFinal = true)
 class HelloWorldTest {
 
   protected static final Class<?> APPLICATION_CONTEXT_JAVA_CLASS_FILE_NAME =
       com.luxoft.training.java.spring.intro.configs.ApplicationContext.class;
 
-  final BeanFactory context =
+  BeanFactory context =
       new AnnotationConfigApplicationContext(
           APPLICATION_CONTEXT_JAVA_CLASS_FILE_NAME);
 

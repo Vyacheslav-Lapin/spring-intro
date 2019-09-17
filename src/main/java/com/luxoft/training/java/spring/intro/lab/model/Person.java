@@ -1,5 +1,6 @@
-package lab.model;
+package com.luxoft.training.java.spring.intro.lab.model;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
 //@Slf4j
@@ -10,7 +11,7 @@ public interface Person {
   Person setName(String name);
   String getName ();
 
-  default void sayHello(Person person) {
+  default void sayHello(@NotNull Person person) {
     log.info("Hello, {}, I'm {}", person.getName(), getName());
   }
 }

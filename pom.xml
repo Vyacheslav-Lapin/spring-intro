@@ -17,6 +17,7 @@
 
   <properties>
     <java.version>12</java.version>
+    <minimal.maven.version>3.6.1</minimal.maven.version>
 
     <checker.version>2.11.0</checker.version>
     <annotations.version>17.0.0</annotations.version>
@@ -28,6 +29,19 @@
 
     <springfox-swagger.version>3.0.0-SNAPSHOT</springfox-swagger.version>
     <springfox-swagger-ui-rfc6570.version>1.0.0</springfox-swagger-ui-rfc6570.version>
+
+    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+
+    <lombok-maven-plugin.version>1.18.8.1</lombok-maven-plugin.version>
+    <lombok.verbose>true</lombok.verbose>
+    <lombok.addOutputDirectory>false</lombok.addOutputDirectory>
+    <lombok.sourceDirectory>${project.basedir}/src/main/java</lombok.sourceDirectory>
+    <lombok.testSourceDirectory>${project.basedir}/src/test/java</lombok.testSourceDirectory>
+
+    <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <checkstyle.version>8.20</checkstyle.version>
+
+    <maven-pmd-plugin.version>3.12.0</maven-pmd-plugin.version>
   </properties>
 
   <repositories>
@@ -88,12 +102,6 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.junit.vintage</groupId>
-        <artifactId>junit-vintage-engine</artifactId>
-        <version>${junit-jupiter.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
         <version>${junit-jupiter.version}</version>
@@ -105,11 +113,6 @@
       <dependency>
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger2</artifactId>
-        <version>${springfox-swagger.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.springfox</groupId>
-        <artifactId>springfox-swagger-ui</artifactId>
         <version>${springfox-swagger.version}</version>
       </dependency>
       <dependency>
@@ -221,10 +224,6 @@
       <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-    <!--  <groupId>org.junit.vintage</groupId>-->
-    <!--  <artifactId>junit-vintage-engine</artifactId>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
@@ -236,10 +235,6 @@
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
     </dependency>
-    <!-- <dependency> -->
-    <!--  <groupId>io.springfox</groupId> -->
-    <!--  <artifactId>springfox-swagger-ui</artifactId> -->
-    <!-- </dependency> -->
     <dependency>
       <groupId>io.springfox.ui</groupId>
       <artifactId>springfox-swagger-ui-rfc6570</artifactId>
@@ -260,11 +255,116 @@
 
     <defaultGoal>spring-boot:start</defaultGoal>
 
+    <pluginManagement>
+      <plugins>
+
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>${minimal.maven.version}</version>
+                  </requireMavenVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok-maven-plugin</artifactId>
+          <version>${lombok-maven-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>delombok</id>
+              <!-- <phase>generate-sources</phase> -->
+              <goals>
+                <goal>delombok</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>test-delombok</id>
+              <!-- <phase>generate-test-sources</phase> -->
+              <goals>
+                <goal>testDelombok</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
+          <configuration>
+            <configLocation>google_checks.xml</configLocation>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${checkstyle.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven-pmd-plugin.version}</version>
+          <configuration><!--http://maven.apache.org/plugins/maven-pmd-plugin/usage.html-->
+            <failOnViolation>true</failOnViolation><!-- this is actually true by default, but can be disabled -->
+            <printFailingErrors>true</printFailingErrors>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+
     <plugins>
+
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 

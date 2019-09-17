@@ -1,9 +1,9 @@
 package com.luxoft.training.java.spring.intro.configs;
 
+import com.luxoft.training.java.spring.intro.lab.model.Country;
+import com.luxoft.training.java.spring.intro.lab.model.Person;
+import com.luxoft.training.java.spring.intro.lab.model.UsualPerson;
 import java.util.List;
-import lab.model.Country;
-import lab.model.Person;
-import lab.model.UsualPerson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan(basePackages = "lab")
+@ComponentScan(basePackages = "com.luxoft.training.java.spring.intro.lab")
 //@ImportResource("classpath:application-context.xml")
 public class ApplicationContext {
 

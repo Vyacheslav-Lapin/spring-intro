@@ -1,9 +1,12 @@
-package lab.aop;
+package com.luxoft.training.java.spring.intro.lab.aop;
 
-import lab.model.Person;
-import lab.model.Squishee;
+import com.luxoft.training.java.spring.intro.lab.model.Person;
+import com.luxoft.training.java.spring.intro.lab.model.Squishee;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -31,14 +34,17 @@ public class Politeness {
     System.out.printf("Is %s Good Enough?\n", retVal.getName());
   }
 
+  @AfterThrowing("sellSquishee()")
   public void sayYouAreNotAllowed() {
     System.out.println("Hmmm...");
   }
 
+  @After("sellSquishee()")
   public void sayGoodBye() {
     System.out.println("Good Bye!");
   }
 
+  @Around("sellSquishee()")
   public Object sayPoliteWordsAndSell(@NotNull ProceedingJoinPoint pjp) throws Throwable {
     System.out.println("Hi!");
     Object retVal = pjp.proceed();

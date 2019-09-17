@@ -1,4 +1,4 @@
-package intro.common;
+package com.luxoft.training.java.spring.intro.commons;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
