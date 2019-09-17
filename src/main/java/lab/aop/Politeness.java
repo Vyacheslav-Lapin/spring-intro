@@ -1,10 +1,12 @@
 package lab.aop;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
-import lab.model.Customer;
+import lab.model.Person;
 import lab.model.Squishee;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -12,30 +14,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class Politeness {
 
-    @Before("execution(* sellSquishee(..))")
-    public void sayHello(@NotNull JoinPoint joinPoint) {
-        AopLog.append("Hello " + ((Customer) joinPoint.getArgs()[0]).getName() + ". How are you doing? \n");
-    }
+  @Pointcut("execution(* sellSquishee(..))")
+  private void sellSquishee(){
+  }
 
-    @AfterReturning(pointcut = "execution(* sellSquishee(..))",
-            returning = "retVal", argNames = "retVal")
-    public void askOpinion(Object retVal) {
-        AopLog.append("Is " + ((Squishee) retVal).getName() + " Good Enough? \n");
-    }
+  @Before("sellSquishee() && args(customer)")
+  public void sayHello(@NotNull Person customer) {
+    System.out.printf("Hello %s. How are you doing?\n", customer.getName());
+  }
 
-    public void sayYouAreNotAllowed() {
-        AopLog.append("Hmmm... \n");
-    }
+  @AfterReturning(
+      pointcut = "sellSquishee()",
+      returning = "retVal",
+      argNames = "retVal")
+  public void askOpinion(@NotNull Squishee retVal) {
+    System.out.printf("Is %s Good Enough?\n", retVal.getName());
+  }
 
-    public void sayGoodBye() {
-        AopLog.append("Good Bye! \n");
-    }
+  public void sayYouAreNotAllowed() {
+    System.out.println("Hmmm...");
+  }
 
-    public Object sayPoliteWordsAndSell(@NotNull ProceedingJoinPoint pjp) throws Throwable {
-        AopLog.append("Hi! \n");
-        Object retVal = pjp.proceed();
-        AopLog.append("See you! \n");
-        return retVal;
-    }
+  public void sayGoodBye() {
+    System.out.println("Good Bye!");
+  }
+
+  public Object sayPoliteWordsAndSell(@NotNull ProceedingJoinPoint pjp) throws Throwable {
+    System.out.println("Hi!");
+    Object retVal = pjp.proceed();
+    System.out.println("See you!");
+    return retVal;
+  }
 
 }

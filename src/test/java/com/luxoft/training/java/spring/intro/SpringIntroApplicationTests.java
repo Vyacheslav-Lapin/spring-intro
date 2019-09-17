@@ -12,6 +12,7 @@ import com.luxoft.training.java.spring.intro.model.Cat;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,13 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@FieldDefaults(makeFinal = true)
 @WithMockUser(authorities = "ADMIN")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class SpringIntroApplicationTests {
 
-  final MockMvc mvc;
+  MockMvc mvc;
 
-  final CatRepository catRepository;
+  CatRepository catRepository;
 
   @BeforeEach
   void setUp() {

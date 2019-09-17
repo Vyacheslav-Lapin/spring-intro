@@ -5,9 +5,11 @@ import lab.model.Country;
 import lab.model.Person;
 import lab.model.UsualPerson;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan(basePackages = "lab")
 //@ImportResource("classpath:application-context.xml")
 public class ApplicationContext {
 
