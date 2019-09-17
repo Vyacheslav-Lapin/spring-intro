@@ -7,8 +7,10 @@ import lab.model.UsualPerson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
+@EnableAspectJAutoProxy
 @ComponentScan(basePackages = "lab")
 //@ImportResource("classpath:application-context.xml")
 public class ApplicationContext {

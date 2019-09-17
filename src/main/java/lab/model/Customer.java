@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 public class Customer implements Person {
 
   @NonNull
-  String name = "Вася";
+  @Value("Вася")
+  String name;
 
+  @Value("false")
   boolean broke;
 
 }

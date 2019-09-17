@@ -22,7 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 //@ContextConfiguration("classpath:application-context.xml")
 class AopAspectJTest {
 
-  Bar bar;
+  Bar apuBar;
 
   Customer customer;
 
@@ -32,7 +32,7 @@ class AopAspectJTest {
   @BeforeEach
   void setUp() throws Exception {
     extractedText = fromSystemOutPrintln(
-        () -> bar.sellSquishee(customer)
+        () -> apuBar.sellSquishee(customer)
     );
   }
 
@@ -61,6 +61,6 @@ class AopAspectJTest {
 
   @Test
   void testAllAdvices() {
-    assertFalse(bar instanceof ApuBar); // barObject instanceof ApuBar
+    assertFalse(apuBar instanceof ApuBar); // barObject instanceof ApuBar
   }
 }
