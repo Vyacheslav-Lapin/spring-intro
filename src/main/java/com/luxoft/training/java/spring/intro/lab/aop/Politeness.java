@@ -17,8 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class Politeness {
 
-  @Pointcut("execution(* sellSquishee(..))")
-  private void sellSquishee(){
+//  @Pointcut("execution(* sellSquishee(..))")
+  @Pointcut("@annotation(Polite)")
+  private void sellSquishee() {
   }
 
   @Before("sellSquishee() && args(customer)")

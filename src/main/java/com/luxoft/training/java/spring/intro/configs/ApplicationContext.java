@@ -11,12 +11,12 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan(basePackages = "com.luxoft.training.java.spring.intro.lab")
+//@ComponentScan(basePackages = "com.luxoft.training.java.spring.intro.lab")
 //@ImportResource("classpath:application-context.xml")
 public class ApplicationContext {
 
   @Bean
-  public Person person(Country country, List<String> contacts) {
+  Person person(Country country, List<String> contacts) {
     return UsualPerson.builder()
                .id(1)
                .name("John Smith")
@@ -29,7 +29,7 @@ public class ApplicationContext {
   }
 
   @Bean
-  public Country country() {
+  Country country() {
     return Country.builder()
                .id(1)
                .name("Russia")
@@ -38,7 +38,8 @@ public class ApplicationContext {
   }
 
   @Bean
-  public List<String> contacts() {
+  List<String> contacts() {
     return List.of("222-33-22", "kjhgdfg@jhdf.ru");
   }
+
 }
