@@ -1,9 +1,10 @@
 package com.luxoft.training.java.spring.intro.lab.dao;
 
+import static java.util.Objects.requireNonNull;
+
 import com.luxoft.training.java.spring.intro.lab.model.Country;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import javax.sql.DataSource;
 import lombok.experimental.FieldDefaults;
@@ -16,30 +17,14 @@ import org.springframework.stereotype.Repository;
 @FieldDefaults(makeFinal = true)
 public class CountryDao extends NamedParameterJdbcDaoSupport {
 
-  public static final String[][] COUNTRY_INIT_DATA = {
-      {"Australia", "AU"},
-      {"Canada", "CA"},
-      {"France", "FR"},
-      {"Hong Kong", "HK"},
-      {"Iceland", "IC"},
-      {"Japan", "JP"},
-      {"Nepal", "NP"},
-      {"Russian Federation", "RU"},
-      {"Sweden", "SE"},
-      {"Switzerland", "CH"},
-      {"United Kingdom", "GB"},
-      {"United States", "US"}};
-
   @Language("H2")
-  private static final String LOAD = "insert into country (name, code_name) values (:name, :codeName)";
+  private static final String GET_ALL = "select id, name, code_name from country";
   @Language("H2")
-  private static final String GET_ALL = "select * from country";
+  private static final String GET_BY_NAME_LIKE = "select id, name, code_name from country where name like :name";
   @Language("H2")
-  private static final String GET_BY_NAME_LIKE = "select * from country where name like :name";
+  private static final String GET_BY_NAME = "select id, name, code_name from country where name = :name";
   @Language("H2")
-  private static final String GET_BY_NAME = "select * from country where name = :name";
-  @Language("H2")
-  private static final String GET_BY_CODE_NAME = "select * from country where code_name = :codeName";
+  private static final String GET_BY_CODE_NAME = "select id, name, code_name from country where code_name = :codeName";
   @Language("H2")
   private static final String UPDATE_NAME = "update country set name = :name where code_name = :codeName";
 
@@ -55,29 +40,27 @@ public class CountryDao extends NamedParameterJdbcDaoSupport {
   }
 
   public List<Country> getCountryList() {
-    // TODO: implement it
-    return null;
+    return requireNonNull(getJdbcTemplate())
+               .query(GET_ALL, COUNTRY_ROW_MAPPER);
   }
 
   public List<Country> getCountryListStartWith(String name) {
-    return Objects.requireNonNull(getNamedParameterJdbcTemplate())
+    return requireNonNull(getNamedParameterJdbcTemplate())
                .query(GET_BY_NAME_LIKE,
                    Map.of("name", name + "%"),
                    COUNTRY_ROW_MAPPER);
   }
 
   public void updateCountryName(String codeName, String newCountryName) {
-    // TODO: implement it
-  }
-
-  public void loadCountries() {
-    var npjt = Objects.requireNonNull(getNamedParameterJdbcTemplate());
-    for (String[] countryData : COUNTRY_INIT_DATA)
-      npjt.update(LOAD, Map.of(countryData[0], countryData[1]));
+    requireNonNull(getNamedParameterJdbcTemplate())
+        .update(UPDATE_NAME,
+            Map.of(
+                "name", newCountryName,
+                "codeName", codeName));
   }
 
   public Country getCountryByCodeName(String codeName) {
-    return Objects.requireNonNull(getNamedParameterJdbcTemplate())
+    return requireNonNull(getNamedParameterJdbcTemplate())
                .queryForObject(
                    GET_BY_CODE_NAME,
                    Map.of("codeName", codeName),
@@ -86,7 +69,7 @@ public class CountryDao extends NamedParameterJdbcDaoSupport {
 
   public Country getCountryByName(String name) {
     return Optional.ofNullable(
-        Objects.requireNonNull(getNamedParameterJdbcTemplate())
+        requireNonNull(getNamedParameterJdbcTemplate())
             .queryForObject(GET_BY_NAME, Map.of("name", name), COUNTRY_ROW_MAPPER))
                .orElseThrow(CountryNotFoundException::new);
   }

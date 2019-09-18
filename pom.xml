@@ -257,7 +257,7 @@
 
   <build>
 
-    <defaultGoal>spring-boot:start</defaultGoal>
+    <defaultGoal>clean spring-boot:run</defaultGoal>
 
     <pluginManagement>
       <plugins>
