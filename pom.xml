@@ -39,7 +39,7 @@
     <lombok.testSourceDirectory>${project.basedir}/src/test/java</lombok.testSourceDirectory>
 
     <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
-    <checkstyle.version>8.20</checkstyle.version>
+    <checkstyle.version>8.29</checkstyle.version>
 
     <maven-pmd-plugin.version>3.12.0</maven-pmd-plugin.version>
   </properties>
